@@ -1,0 +1,155 @@
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+
+  color: #ffffff;
+  background-color: #cef5e0;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+header {
+  background-color: #474747;
+  position:relative;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.title  {
+  font-size: 30px;
+  margin-left: 10px;
+}
+
+main { 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 599px;
+}
+
+.content, .bottoni {
+  width: 40%;
+}
+
+.content {
+  padding: 40px;
+  margin: 0 40px 0 40px;
+} 
+
+.bottoni { 
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  height: 100%;
+  justify-content: center;
+  background-color: #689597;
+  padding: 0 45px 0 45px;
+}
+
+.main_buttons {
+  border-radius: 20px;
+  padding: 8px;
+  font-size: 17px;
+  border-style: solid;
+  border-color: #b6acfe;
+  border-width: 2px;
+}
+
+.main_buttons:hover {
+  color: #b6acfe;
+}
+
+.aggiungi_arg {
+  color: white;
+  padding: 10px;
+  font-size: 17px;
+  border: 2px solid #b6acfe;
+  border-radius: 10px;
+  background-color: #5b626d;
+  display: none;
+}
+
+label {
+  display: inline-block;
+  width: 100px;
+  text-align: right;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+input {
+  flex: 1;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+#bottone_aggiungi {
+  background-color: #b6acfe;
+  color: white;
+  border: 2px solid #689597;
+  padding: 7px;
+  font-size: 20px;
+  margin: 10px 0px 0 0;
+  width: 100%;
+
+}
+
+.visualizza_arg {
+ display: none;
+ border: solid 1px red;
+}
+
+.visualizza_cal {
+  display: none;
+  background-color: #5b626d;
+  padding: 10px;
+  font-size: 17px;
+  border: 2px solid #b6acfe;
+  border-radius: 10px;
+  color: white;
+}
+
+.calendar-header {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.days-container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.day, .empty {
+  padding: 10px;
+  text-align: center;
+  background-color: #474747;
+  border-radius: 5px;
+}
+
+.day:hover {
+  cursor: pointer;
+  background-color: #b6acfe;
+}
+
+.change-month {
+  background-color: #5b626d;
+  border: none;
+  color: white;
+  padding: 5px;
+  cursor: pointer;
+  font-size: 20px;
+}
+

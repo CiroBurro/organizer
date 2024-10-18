@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Organizer</title>
+    <script type="module" src="main.js" defer></script>
+  </head>
+
+  <body>
+    <header>
+      <h1 class="title">Organizer</h1>
+    </header>
+    <main>
+
+      <div class="content">
+
+        <div class="aggiungi_arg">
+          <label for="titolo">Titolo: </label>
+          <input type="text" id="titolo" name="titolo">
+          <label for="descrizione">Descrizione: </label>
+          <input type="text" id="descrizione" name="descrizione">
+          <label for="materia">Materia: </label>
+          <input type="text" id="materia" name="materia">
+
+          <button id="bottone_aggiungi">Inserisci</button>
+        </div>
+
+
+        <div class="visualizza_arg"></div>
+        
+        <div class="visualizza_cal" id="calendario"></div>
+      </div>
+      <div class="bottoni">
+        <button class="main_buttons" id="bottone1">Aggiungi argomento</button>
+        <button class="main_buttons" id="bottone2">Visualizza argomenti</button>
+        <button class="main_buttons" id="bottone3">Visualizza calendario</button>
+      </div>
+    </main>
+  </body>
+</html>
