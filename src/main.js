@@ -108,3 +108,14 @@ document.addEventListener("DOMContentLoaded", function() {
   // Inizializza il calendario
   updateCalendar();
 });
+
+
+var toggler = document.getElementsByClassName("materia_nome");
+var i;
+
+for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".argomenti").classList.toggle("active");
+    this.classList.toggle("materia_nome-open");
+  });
+}

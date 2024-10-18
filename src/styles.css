@@ -18,7 +18,7 @@ body {
 }
 
 header {
-  background-color: #474747;
+  background-color: #5b626d;
   position:relative;
   width: 100%;
   height: 50px;
@@ -105,11 +105,6 @@ input {
 
 }
 
-.visualizza_arg {
- display: none;
- border: solid 1px red;
-}
-
 .visualizza_cal {
   display: none;
   background-color: #5b626d;
@@ -153,3 +148,73 @@ input {
   font-size: 20px;
 }
 
+.visualizza_arg {
+  display: none;
+  background-color: #5b626d;
+  color: white;
+  border: 2px solid #b6acfe;
+  border-radius: 10px;
+  width: 317px;
+  height: 330px;
+  overflow-y: auto;
+  overflow-x: hidden;
+ }
+
+ ::-webkit-scrollbar {
+  background-color: #ccc;
+  width: 8px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #b6acfe;
+  width: 8px;
+  border-radius: 10px;
+}
+
+ ul, #lista_materie {
+  list-style-type: none;
+}
+
+#lista_materie {
+  margin-top: 11px;
+  padding: 8px;
+  width: 300px;
+  height: 303px;
+  margin-bottom: 0;
+}
+
+
+#lista_materie li {
+  margin-bottom: 10px;
+  width: 300px;
+}
+
+#lista_materie li:last-child {
+  margin-bottom: 0;
+}
+
+.materia_nome {
+  cursor: pointer;
+  user-select: none;
+  font-size: 19px;
+}
+
+.materia_nome::before {
+  content: "\25B6";
+  color: #b6acfe;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.materia_nome-open::before {
+  transform: rotate(90deg);
+}
+
+.argomenti {
+  display: none;
+} 
+
+.active {
+  display: block;
+}
