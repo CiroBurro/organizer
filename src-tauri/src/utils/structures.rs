@@ -1,11 +1,13 @@
-#[derive(Debug, Clone)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Argomento {
     pub nome: String,
     pub materia: String,
     pub descrizione: String,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum Materia {
     Arte { argomenti: Vec<Argomento> },
     Filosofia { argomenti: Vec<Argomento> },

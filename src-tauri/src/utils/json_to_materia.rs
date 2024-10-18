@@ -1,7 +1,27 @@
 use crate::utils::structures::Argomento;
 use crate::utils::structures::Materia;
+use dirs::data_dir;
 use serde::{Deserialize, Serialize};
 use std::fs;
+use std::path::Path;
+
+const JSON_DEFAULT: &str = include_str!("materie.json");
+
+pub fn inizializza_file_materie() -> std::io::Result<()> {
+    let data_dir = data_dir().expect("Errore nella recupero della directory di dati");
+    let percorso_file = data_dir.join("materie.json");
+
+    // Controlla se il file esiste già
+    if !Path::new(&percorso_file).exists() {
+        // Se non esiste, copia il file incorporato
+        fs::write(&percorso_file, JSON_DEFAULT)?;
+        println!("File materie.json copiato nella directory locale");
+    } else {
+        println!("Il file materie.json esiste già");
+    }
+
+    Ok(())
+}
 
 #[derive(Debug, Deserialize, Serialize)]
 struct MaterieWrapper {
@@ -21,8 +41,10 @@ pub struct JsonArgomento {
     descrizione: String,
 }
 
-pub fn leggi_materie_da_file(percorso: &str) -> Vec<JsonMateria> {
-    let file_contenuto = fs::read_to_string(percorso).expect("Errore nella lettura del file JSON");
+pub fn leggi_materie_da_file() -> Vec<JsonMateria> {
+    let data_dir = data_dir().expect("Errore nella recupero della directory di dati");
+    let percorso_file = data_dir.join("materie.json");
+    let file_contenuto = fs::read_to_string(percorso_file).expect("Errore nella lettura del file JSON");
     let wrapper: MaterieWrapper =
         serde_json::from_str(&file_contenuto).expect("Errore nella deserializzazione del JSON");
     wrapper.materie
@@ -55,8 +77,16 @@ impl From<JsonMateria> for Materia {
     }
 }
 
-pub fn ottieni_materie(percorso: &str) -> Result<Vec<Materia>, Box<dyn std::error::Error>> {
-    let json_materie = leggi_materie_da_file(percorso);
+pub fn ottieni_materie() -> Result<Vec<Materia>, Box<dyn std::error::Error>> {
+    let json_materie = leggi_materie_da_file();
     let materie = json_materie.into_iter().map(Materia::from).collect();
     Ok(materie)
+}
+
+pub fn salva_materie(materie: Vec<Materia>) -> Result<(), std::io::Error> {
+    let data_dir = data_dir().expect("Errore nella recupero della directory di dati");
+    let percorso_file = data_dir.join("materie.json");
+
+    let json = serde_json::to_string_pretty(&materie)?;
+    fs::write(&percorso_file, json)
 }
