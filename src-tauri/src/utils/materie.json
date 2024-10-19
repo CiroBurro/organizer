@@ -1,0 +1,40 @@
+{
+    "materie": [
+        {
+            "nome": "Arte",
+            "argomenti": []
+        },
+        {
+            "nome": "Filosofia",
+            "argomenti": []
+        },
+        {
+            "nome": "Fisica",
+            "argomenti": []
+        },
+        {
+            "nome": "Inglese",
+            "argomenti": []
+        },
+        {
+            "nome": "Italiano",
+            "argomenti": []
+        },
+        {
+            "nome": "Latino",
+            "argomenti": []
+        },
+        {
+            "nome": "Matematica",
+            "argomenti": []
+        },
+        {
+            "nome": "Scienze",
+            "argomenti": []
+        },
+        {
+            "nome": "Storia",
+            "argomenti": []
+        }
+    ]
+}

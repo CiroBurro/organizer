@@ -1,11 +1,19 @@
 pub mod utils;
-use utils::json_to_materia::{ottieni_materie, inizializza_file_materie, salva_materie};
+use utils::json_to_materia::{ottieni_materie, inizializza_file_materie, salva_materie, ottieni_materie_json};
 use utils::structures::Argomento;
 
 #[tauri::command]
 fn inserisci_argomento(materia: String, nome: String, descrizione: String) -> Result<(), String> {
 
-    let mut materie = ottieni_materie().unwrap();
+    if let Err(e) = inizializza_file_materie() {
+        println!("Errore durante l'inizializzazione del file materie.json: {}", e);
+    }
+
+    let mut materie = match ottieni_materie() {
+        Ok(materie) => materie,
+        Err(_) => return Err("Errore durante l'ottenimento delle materie".into()),
+    };
+    
     let argomento = Argomento::new(nome, materia, descrizione);
     let materia_lowercase = argomento.materia.as_str().trim().to_lowercase();
     
@@ -27,6 +35,9 @@ fn inserisci_argomento(materia: String, nome: String, descrizione: String) -> Re
 
 }
 
+
+
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
 
@@ -36,7 +47,7 @@ pub fn run() {
 
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![inserisci_argomento])
+        .invoke_handler(tauri::generate_handler![inserisci_argomento, ottieni_materie_json])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

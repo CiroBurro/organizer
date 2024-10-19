@@ -1,3 +1,24 @@
+const { invoke } = window.__TAURI__.core;
+
+
+// aggiungi argomento
+document.querySelector("#bottone_aggiungi").addEventListener("click", () => {
+  const titolo = document.getElementById("titolo").value;
+  const descrizione = document.getElementById("descrizione").value;
+  const materia = document.getElementById("materia").value;
+
+  if (titolo && descrizione && materia) {
+    invoke("inserisci_argomento", {materia: materia, nome: titolo, descrizione: descrizione} )
+      .then(response => console.log("Argomento aggiunto con successo"))
+      .catch(error => console.error("Errore:", error));
+  } else {
+    alert("Compila tutti i campi");
+  }
+  caricaMaterie();
+})
+ 
+
+// bottoni principali
 window.addEventListener("DOMContentLoaded", () => {
   const bottone1 = document.querySelector("#bottone1");
   const bottone2 = document.querySelector("#bottone2");
@@ -35,6 +56,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 
+// calendario
 let currentYear = new Date().getFullYear();
 let currentMonth = new Date().getMonth();
 
@@ -110,12 +132,54 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-var toggler = document.getElementsByClassName("materia_nome");
-var i;
+// tree view
 
-for (i = 0; i < toggler.length; i++) {
-  toggler[i].addEventListener("click", function() {
-    this.parentElement.querySelector(".argomenti").classList.toggle("active");
-    this.classList.toggle("materia_nome-open");
+async function caricaMaterie() {
+  try {
+    const response = await invoke("ottieni_materie_json"); // Invoca la funzione Tauri
+    popolaArgomenti(response); // Popola gli argomenti nell'interfaccia
+  } catch (error) {
+    console.error("Errore nel caricamento delle materie:", error);
+  }
+}
+
+// Funzione per popolare le materie e i loro argomenti
+function popolaArgomenti(materie) {
+  const listaMaterie = document.getElementById("lista_materie");
+
+  // Pulisce eventuali elementi esistenti
+  listaMaterie.innerHTML = '';
+
+  // Itera su tutte le materie
+  materie.forEach(materia => {
+    const li = document.createElement("li");
+
+    // Aggiunge il nome della materia e il contenitore degli argomenti
+    li.innerHTML = `<span class="materia_nome">${materia.nome}</span><ul class="argomenti"></ul>`;
+    const ulArgomenti = li.querySelector(".argomenti");
+
+    // Itera sugli argomenti e li aggiunge al DOM
+    materia.argomenti.forEach(argomento => {
+      const liArgomento = document.createElement("li");
+      liArgomento.textContent = argomento.nome; // Aggiunge il nome dell'argomento
+      ulArgomenti.appendChild(liArgomento);
+    });
+
+    // Aggiunge la materia alla lista delle materie
+    listaMaterie.appendChild(li);
   });
 }
+
+// Event delegation per il toggle delle materie
+document.getElementById("lista_materie").addEventListener("click", function(event) {
+  // Verifica che l'elemento cliccato sia una materia
+  if (event.target.classList.contains("materia_nome")) {
+    const argomentiList = event.target.parentElement.querySelector(".argomenti");
+    argomentiList.classList.toggle("active"); // Mostra o nasconde gli argomenti
+    event.target.classList.toggle("materia_nome-open"); // Cambia l'icona del toggle
+  }
+});
+
+
+// Carica le materie all'avvio
+caricaMaterie();

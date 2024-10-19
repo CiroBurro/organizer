@@ -83,10 +83,91 @@ pub fn ottieni_materie() -> Result<Vec<Materia>, Box<dyn std::error::Error>> {
     Ok(materie)
 }
 
+#[tauri::command]
+pub fn ottieni_materie_json() -> Result<Vec<JsonMateria>, tauri::Error> {
+    let json_materie = leggi_materie_da_file();
+    Ok(json_materie)
+}
+
+impl JsonMateria {
+    pub fn from_materia(materia: &Materia) -> Self {
+        let argomenti = match materia {
+            Materia::Arte { argomenti } => argomenti.iter().map(|a| JsonArgomento {
+                nome: a.nome.clone(),
+                materia: "Arte".to_string(),
+                descrizione: a.descrizione.clone(),
+            }).collect(),
+            Materia::Filosofia { argomenti } => argomenti.iter().map(|a| JsonArgomento {
+                nome: a.nome.clone(),
+                materia: "Filosofia".to_string(),
+                descrizione: a.descrizione.clone(),
+            }).collect(),
+            Materia::Fisica { argomenti } => argomenti.iter().map(|a| JsonArgomento {
+                nome: a.nome.clone(),
+                materia: "Fisica".to_string(),
+                descrizione: a.descrizione.clone(),
+            }).collect(),
+            Materia::Inglese { argomenti } => argomenti.iter().map(|a| JsonArgomento {
+                nome: a.nome.clone(),
+                materia: "Inglese".to_string(),
+                descrizione: a.descrizione.clone(),
+            }).collect(),
+            Materia::Italiano { argomenti } => argomenti.iter().map(|a| JsonArgomento {
+                nome: a.nome.clone(),
+                materia: "Italiano".to_string(),
+                descrizione: a.descrizione.clone(),
+            }).collect(),
+            Materia::Latino { argomenti } => argomenti.iter().map(|a| JsonArgomento {
+                nome: a.nome.clone(),
+                materia: "Latino".to_string(),
+                descrizione: a.descrizione.clone(),
+            }).collect(),
+            Materia::Matematica { argomenti } => argomenti.iter().map(|a| JsonArgomento {
+                nome: a.nome.clone(),
+                materia: "Matematica".to_string(),
+                descrizione: a.descrizione.clone(),
+            }).collect(),
+            Materia::Scienze { argomenti } => argomenti.iter().map(|a| JsonArgomento {
+                nome: a.nome.clone(),
+                materia: "Scienze".to_string(),
+                descrizione: a.descrizione.clone(),
+            }).collect(),
+            Materia::Storia { argomenti } => argomenti.iter().map(|a| JsonArgomento {
+                nome: a.nome.clone(),
+                materia: "Storia".to_string(),
+                descrizione: a.descrizione.clone(),
+            }).collect(),
+        };
+
+        JsonMateria {
+            nome: match materia {
+                Materia::Arte { .. } => "Arte".to_string(),
+                Materia::Filosofia { .. } => "Filosofia".to_string(),
+                Materia::Fisica { .. } => "Fisica".to_string(),
+                Materia::Inglese { .. } => "Inglese".to_string(),
+                Materia::Italiano { .. } => "Italiano".to_string(),
+                Materia::Latino { .. } => "Latino".to_string(),
+                Materia::Matematica { .. } => "Matematica".to_string(),
+                Materia::Scienze { .. } => "Scienze".to_string(),
+                Materia::Storia { .. } => "Storia".to_string(),
+            },
+            argomenti,
+        }
+    }
+}
+
+
 pub fn salva_materie(materie: Vec<Materia>) -> Result<(), std::io::Error> {
     let data_dir = data_dir().expect("Errore nella recupero della directory di dati");
     let percorso_file = data_dir.join("materie.json");
 
-    let json = serde_json::to_string_pretty(&materie)?;
+    // Converti il vettore di Materia in un vettore di JsonMateria
+    let json_materie: Vec<JsonMateria> = materie.iter().map(JsonMateria::from_materia).collect();
+
+    // Costruire un wrapper per le materie
+    let wrapper = MaterieWrapper { materie: json_materie };
+
+    // Serializzare il wrapper
+    let json = serde_json::to_string_pretty(&wrapper)?;
     fs::write(&percorso_file, json)
 }

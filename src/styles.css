@@ -188,6 +188,9 @@ input {
 #lista_materie li {
   margin-bottom: 10px;
   width: 300px;
+  font-size: 18px;
+  list-style-type: disc;
+  padding: 3px;
 }
 
 #lista_materie li:last-child {
