@@ -14,6 +14,10 @@ document.querySelector("#bottone_aggiungi").addEventListener("click", () => {
   } else {
     alert("Compila tutti i campi");
   }
+
+  document.getElementById("titolo").value = "";
+  document.getElementById("descrizione").value = "";
+  document.getElementById("materia").value = "";
   caricaMaterie();
 })
  
@@ -26,6 +30,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const divAggiungiArg = document.querySelector(".aggiungi_arg");
   const divVisualizzaArg = document.querySelector(".visualizza_arg");
   const divVisualizzaCal = document.querySelector(".visualizza_cal");
+  const divLeggiArg = document.querySelector(".leggi_arg");
 
   if (bottone1 && divAggiungiArg && divVisualizzaArg && divVisualizzaCal) {
     bottone1.addEventListener("click", () => {
@@ -33,6 +38,7 @@ window.addEventListener("DOMContentLoaded", () => {
       divAggiungiArg.style.display = "block";
       divVisualizzaArg.style.display = "none";
       divVisualizzaCal.style.display = "none";
+      divLeggiArg.style.display = "none";
     });
 
     
@@ -41,6 +47,7 @@ window.addEventListener("DOMContentLoaded", () => {
       divAggiungiArg.style.display = "none";
       divVisualizzaArg.style.display = "block";
       divVisualizzaCal.style.display = "none";
+      divLeggiArg.style.display = "none";
     });
 
     bottone3.addEventListener("click", () => {
@@ -48,11 +55,13 @@ window.addEventListener("DOMContentLoaded", () => {
       divAggiungiArg.style.display = "none";
       divVisualizzaArg.style.display = "none";
       divVisualizzaCal.style.display = "block";
+      divLeggiArg.style.display = "none";
     });
 
   } else {
     console.error("Uno o più elementi non sono stati trovati nel DOM");
   }
+
 });
 
 
@@ -161,6 +170,7 @@ function popolaArgomenti(materie) {
     // Itera sugli argomenti e li aggiunge al DOM
     materia.argomenti.forEach(argomento => {
       const liArgomento = document.createElement("li");
+      liArgomento.className = "liArgomento";
       liArgomento.textContent = argomento.nome; // Aggiunge il nome dell'argomento
       ulArgomenti.appendChild(liArgomento);
     });
@@ -179,6 +189,55 @@ document.getElementById("lista_materie").addEventListener("click", function(even
     event.target.classList.toggle("materia_nome-open"); // Cambia l'icona del toggle
   }
 });
+
+
+window.addEventListener("DOMContentLoaded", () => {
+  const divAggiungiArg = document.querySelector(".aggiungi_arg");
+  const divVisualizzaArg = document.querySelector(".visualizza_arg");
+  const divVisualizzaCal = document.querySelector(".visualizza_cal");
+  const bottone4 = document.querySelector("#bottone4");
+  const divLeggiArg = document.querySelector(".leggi_arg");
+  const titoloArg = document.querySelector("#titolo_argomento");
+  const descrizioneArg = document.querySelector("#descrizione_argomento");
+
+  // Assegna l'event listener al contenitore che contiene gli argomenti (ul o div padre)
+  const listaMaterie = document.getElementById("lista_materie");
+
+  // Richiedi i dati delle materie (invocazione asincrona)
+  invoke("ottieni_materie_json").then(materie => {
+
+    // Usa event delegation per catturare i click su elementi con classe .liArgomento
+    listaMaterie.addEventListener("click", (event) => {
+      if (event.target.classList.contains("liArgomento")) {
+        // Nascondi/mostra i div desiderati
+        divAggiungiArg.style.display = "none";
+        divVisualizzaArg.style.display = "none";
+        divVisualizzaCal.style.display = "none";
+        divLeggiArg.style.display = "block";
+        bottone4.style.display = "block";
+
+        // Ottieni il nome dell'argomento cliccato
+        const argomentoCliccato = event.target.textContent;
+        titoloArg.textContent = argomentoCliccato;
+
+        // Cerca l'argomento corrispondente nella lista delle materie e fermati al primo match
+        for (const materia of materie) {
+          for (const argomento of materia.argomenti) {
+            if (argomento.nome === argomentoCliccato) {
+              // Imposta la descrizione dell'argomento selezionato
+              descrizioneArg.textContent = argomento.descrizione;
+              return; // Esci dal ciclo una volta trovata la corrispondenza
+            }
+          }
+        }
+      }
+    });
+  }).catch(error => {
+    console.error("Errore nel recupero delle materie:", error);
+  });
+});
+
+
 
 
 // Carica le materie all'avvio

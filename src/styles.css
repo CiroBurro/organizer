@@ -15,6 +15,7 @@
 
 body {
   margin: 0;
+  overflow-y: hidden;
 }
 
 header {
@@ -38,13 +39,12 @@ main {
   height: 599px;
 }
 
-.content, .bottoni {
-  width: 40%;
-}
 
 .content {
-  padding: 40px;
-  margin: 0 40px 0 40px;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  width: 50%;
 } 
 
 .bottoni { 
@@ -54,7 +54,8 @@ main {
   height: 100%;
   justify-content: center;
   background-color: #689597;
-  padding: 0 45px 0 45px;
+  padding: 0 20px 0 20px;
+  width: 40%;
 }
 
 .main_buttons {
@@ -73,11 +74,12 @@ main {
 .aggiungi_arg {
   color: white;
   padding: 10px;
-  font-size: 17px;
+  font-size: 18px;
   border: 2px solid #b6acfe;
   border-radius: 10px;
   background-color: #5b626d;
   display: none;
+  width: 310px;
 }
 
 label {
@@ -85,13 +87,13 @@ label {
   width: 100px;
   text-align: right;
   margin-right: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 13px;
 }
 
 input {
   flex: 1;
   padding: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 13px;
 }
 
 #bottone_aggiungi {
@@ -220,4 +222,40 @@ input {
 
 .active {
   display: block;
+}
+
+.active li:hover {
+  color: #b6acfe;
+}
+
+.leggi_arg {
+  display: none;
+  background-color: #5b626d;
+  color: white;
+  border: 2px solid #b6acfe;
+  border-radius: 10px;
+  width: 100%;
+  height: 550px;
+  overflow-y: auto;
+}
+
+#titolo_argomento {
+  text-align: center;
+  font-size: 30px;
+  margin: 15px 0;
+}
+
+.sottotitolo {
+  margin: 25px 5px 5px;
+  font-size: 22px;
+  color: #b6acfe;
+}
+
+#descrizione_argomento {
+  margin: 0 5px;
+  font-size: 17px;
+}
+
+#bottone4 {
+  display: none;
 }
