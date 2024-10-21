@@ -87,7 +87,7 @@ document.querySelector("#elimina").addEventListener("click", () => {
 
   if (titolo && materia) {
     invoke("elimina_argomento", {materia: materia, nome: titolo} )
-      .then(response => alert("Argomento eliminato con successo, riavvia l'app per vedere le modifiche"))
+      .then(response => alert("Argomento eliminato con successo"))
       .catch(error => alert("Errore:", error));
     
       document.getElementById("titolo_mod").value = "";
