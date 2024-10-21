@@ -10,7 +10,7 @@ document.querySelector("#bottone_aggiungi").addEventListener("click", () => {
   var collegamenti = document.getElementById("collegamenti").value;
 
   if (!descrizione) {
-    descrizione = "Non è ancora statoa inserita una descrizione per questo argomento";
+    descrizione = "Non è ancora stata inserita una descrizione per questo argomento";
   }
 
   if (!collegamenti) {
@@ -18,11 +18,11 @@ document.querySelector("#bottone_aggiungi").addEventListener("click", () => {
   }
 
   if (!voto) {
-    voto = "Non è ancora stato inserito un voto per questo argomento";
+    voto = "0.0";
   }
 
   if (titolo && materia) {
-    if (parseFloat(voto) >= 2 && parseFloat(voto) <= 10) {
+    if ((parseFloat(voto) >= 2 && parseFloat(voto) <= 10) || voto === "0.0") {
       invoke("inserisci_argomento", {materia: materia, nome: titolo, descrizione: descrizione, collegamenti: collegamenti, voto: voto} )
         .then(response => alert("Argomento aggiunto con successo"))
         .catch(error => alert("Errore", error));
@@ -344,7 +344,13 @@ window.addEventListener("DOMContentLoaded", () => {
               // Imposta la descrizione dell'argomento selezionato
               descrizioneArg.textContent = argomento.descrizione;
               collegamentiArg.textContent = argomento.collegamenti;
-              votoArg.textContent = argomento.voto;
+              if (argomento.voto !== 0) {
+                votoArg.textContent = argomento.voto;
+              } else if (argomento.voto === 0) {
+
+                votoArg.style.fontSize = "17px";
+                votoArg.textContent = "Non è ancora stato inserito un voto per questo argomento";
+              }
               return; // Esci dal ciclo una volta trovata la corrispondenza
             }
           }
