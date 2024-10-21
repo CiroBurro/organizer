@@ -40,6 +40,42 @@ main {
 }
 
 
+.content, .bottoni {
+  opacity: 1;
+}
+
+.modifica {
+  position: absolute;
+  color: white;
+  padding: 10px;
+  font-size: 18px;
+  border: 2px solid #b6acfe;
+  border-radius: 10px;
+  background-color: #5b626d;
+  display: none;
+  width: 315px;
+}
+
+.modifica h2 {
+  text-align: center;
+  margin: 5px 0 30px
+}
+
+.buttons{
+  display: flex;
+  justify-content: space-between;
+}
+
+.bottone_modifica {
+  background-color: #b6acfe;
+  color: white;
+  border: 2px solid #689597;
+  padding: 7px;
+  font-size: 20px;
+  margin: 10px 0 0;
+  width: 31%;
+}
+
 .content {
   padding: 30px;
   display: flex;
@@ -79,12 +115,12 @@ main {
   border-radius: 10px;
   background-color: #5b626d;
   display: none;
-  width: 310px;
+  width: 315px;
 }
 
 label {
   display: inline-block;
-  width: 100px;
+  width: 110px;
   text-align: right;
   margin-right: 10px;
   margin-bottom: 13px;
@@ -251,9 +287,13 @@ input {
   color: #b6acfe;
 }
 
-#descrizione_argomento {
+#descrizione_argomento, #collegamenti_argomento, #voto_argomento {
   margin: 0 5px;
   font-size: 17px;
+}
+
+#voto_argomento {
+  font-size: 20px;
 }
 
 #bottone4 {

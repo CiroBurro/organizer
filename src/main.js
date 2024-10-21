@@ -4,41 +4,147 @@ const { invoke } = window.__TAURI__.core;
 // aggiungi argomento
 document.querySelector("#bottone_aggiungi").addEventListener("click", () => {
   const titolo = document.getElementById("titolo").value;
-  const descrizione = document.getElementById("descrizione").value;
+  var descrizione = document.getElementById("descrizione").value;
   const materia = document.getElementById("materia").value;
+  var voto = document.getElementById("voto").value;
+  var collegamenti = document.getElementById("collegamenti").value;
 
-  if (titolo && descrizione && materia) {
-    invoke("inserisci_argomento", {materia: materia, nome: titolo, descrizione: descrizione} )
-      .then(response => console.log("Argomento aggiunto con successo"))
-      .catch(error => console.error("Errore:", error));
+  if (!descrizione) {
+    descrizione = "Non è ancora statoa inserita una descrizione per questo argomento";
+  }
+
+  if (!collegamenti) {
+    collegamenti = "Non sono ancora stati inseriti collegamenti per questo argomento";
+  }
+
+  if (!voto) {
+    voto = "Non è ancora stato inserito un voto per questo argomento";
+  }
+
+  if (titolo && materia) {
+    if (parseFloat(voto) >= 2 && parseFloat(voto) <= 10) {
+      invoke("inserisci_argomento", {materia: materia, nome: titolo, descrizione: descrizione, collegamenti: collegamenti, voto: voto} )
+        .then(response => alert("Argomento aggiunto con successo"))
+        .catch(error => alert("Errore", error));
+      
+      document.getElementById("titolo").value = "";
+      document.getElementById("descrizione").value = "";
+      document.getElementById("voto").value = "";
+      document.getElementById("materia").value = "";
+      document.getElementById("collegamenti").value = "";
+    } else {
+      alert("Non fare il fenomeno, il voto deve essere compreso tra 2 e 10");
+    }
   } else {
     alert("Compila tutti i campi");
   }
 
-  document.getElementById("titolo").value = "";
-  document.getElementById("descrizione").value = "";
-  document.getElementById("materia").value = "";
   caricaMaterie();
 })
- 
+
+document.querySelector("#modifica").addEventListener("click", () => {
+  const titolo = document.getElementById("titolo_mod").value;
+  const descrizione = document.getElementById("descrizione_mod").value;
+  const materia = document.getElementById("materia_mod").value;
+  const voto = document.getElementById("voto_mod").value;
+  var collegamenti = document.getElementById("collegamenti_mod").value;
+  const divModifica = document.querySelector(".modifica");
+  const divContent = document.querySelector(".content");
+  const divBottoni = document.querySelector(".bottoni");
+
+
+  if (titolo && materia) {
+    if (parseFloat(voto) >= 2 && parseFloat(voto) <= 10) {
+      invoke("modifica_argomento", {materia: materia, nome: titolo, descrizione: descrizione, collegamenti: collegamenti, voto: voto} )
+        .then(response => alert("Argomento aggiornato con successo, riavvia l'app per vedere le modifiche"))
+        .catch(error => alert("Errore", error));
+    
+
+      document.getElementById("titolo_mod").value = "";
+      document.getElementById("descrizione_mod").value = "";
+      document.getElementById("materia_mod").value = "";
+      document.getElementById("collegamenti_mod").value = "";
+      document.getElementById("voto_mod").value = "";
+      divModifica.style.display = "none";
+      divContent.style.opacity = 1;
+      divBottoni.style.opacity = 1;
+    } else {
+      alert("Non fare il fenomeno, il voto deve essere compreso tra 2 e 10");
+    }
+  } else {
+    alert("Inserisci il titolo e la materia dell'argomento che vuoi modificare");
+  }
+
+  caricaMaterie();
+});
+
+document.querySelector("#elimina").addEventListener("click", () => {
+  const titolo = document.getElementById("titolo_mod").value;
+  const materia = document.getElementById("materia_mod").value;
+  const divModifica = document.querySelector(".modifica");
+  const divContent = document.querySelector(".content");
+  const divBottoni = document.querySelector(".bottoni");
+
+  if (titolo && materia) {
+    invoke("elimina_argomento", {materia: materia, nome: titolo} )
+      .then(response => alert("Argomento eliminato con successo, riavvia l'app per vedere le modifiche"))
+      .catch(error => alert("Errore:", error));
+    
+      document.getElementById("titolo_mod").value = "";
+      document.getElementById("descrizione_mod").value = "";
+      document.getElementById("materia_mod").value = "";
+      document.getElementById("collegamenti_mod").value = "";
+      document.getElementById("voto_mod").value = "";
+      divModifica.style.display = "none";
+      divContent.style.opacity = 1;
+      divBottoni.style.opacity = 1;
+
+      caricaMaterie();   
+  } else {
+    alert("Inserisci il titolo e la materia dell'argomento che vuoi eliminare");
+  }
+});
+
+document.querySelector("#annulla").addEventListener("click", () => {
+  const divModifica = document.querySelector(".modifica");
+  const divContent = document.querySelector(".content");
+  const divBottoni = document.querySelector(".bottoni");
+
+  document.getElementById("titolo_mod").value = "";
+  document.getElementById("descrizione_mod").value = "";
+  document.getElementById("materia_mod").value = "";
+  document.getElementById("collegamenti_mod").value = "";
+  document.getElementById("voto_mod").value = "";
+  divModifica.style.display = "none";
+  divContent.style.opacity = 1;
+  divBottoni.style.opacity = 1;
+    
+});
+
+
 
 // bottoni principali
 window.addEventListener("DOMContentLoaded", () => {
   const bottone1 = document.querySelector("#bottone1");
   const bottone2 = document.querySelector("#bottone2");
   const bottone3 = document.querySelector("#bottone3");
+  const bottone4 = document.querySelector("#bottone4");
   const divAggiungiArg = document.querySelector(".aggiungi_arg");
   const divVisualizzaArg = document.querySelector(".visualizza_arg");
   const divVisualizzaCal = document.querySelector(".visualizza_cal");
   const divLeggiArg = document.querySelector(".leggi_arg");
+  const divModifica = document.querySelector(".modifica");
+  const divContent = document.querySelector(".content");
+  const divBottoni = document.querySelector(".bottoni");
 
-  if (bottone1 && divAggiungiArg && divVisualizzaArg && divVisualizzaCal) {
+  if (divAggiungiArg && divVisualizzaArg && divVisualizzaCal) {
     bottone1.addEventListener("click", () => {
 
       divAggiungiArg.style.display = "block";
       divVisualizzaArg.style.display = "none";
       divVisualizzaCal.style.display = "none";
       divLeggiArg.style.display = "none";
+      bottone4.style.display = "none";
     });
 
     
@@ -48,6 +154,7 @@ window.addEventListener("DOMContentLoaded", () => {
       divVisualizzaArg.style.display = "block";
       divVisualizzaCal.style.display = "none";
       divLeggiArg.style.display = "none";
+      bottone4.style.display = "block";
     });
 
     bottone3.addEventListener("click", () => {
@@ -56,11 +163,19 @@ window.addEventListener("DOMContentLoaded", () => {
       divVisualizzaArg.style.display = "none";
       divVisualizzaCal.style.display = "block";
       divLeggiArg.style.display = "none";
+      bottone4.style.display = "none";
     });
 
   } else {
     console.error("Uno o più elementi non sono stati trovati nel DOM");
   }
+
+
+  bottone4.addEventListener("click", () => {
+    divContent.style.opacity = 0.5;
+    divBottoni.style.opacity = 0.5;
+    divModifica.style.display = "block";
+  });
 
 });
 
@@ -142,7 +257,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 // tree view
-
 async function caricaMaterie() {
   try {
     const response = await invoke("ottieni_materie_json"); // Invoca la funzione Tauri
@@ -190,7 +304,7 @@ document.getElementById("lista_materie").addEventListener("click", function(even
   }
 });
 
-
+// leggi argomento
 window.addEventListener("DOMContentLoaded", () => {
   const divAggiungiArg = document.querySelector(".aggiungi_arg");
   const divVisualizzaArg = document.querySelector(".visualizza_arg");
@@ -199,6 +313,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const divLeggiArg = document.querySelector(".leggi_arg");
   const titoloArg = document.querySelector("#titolo_argomento");
   const descrizioneArg = document.querySelector("#descrizione_argomento");
+  const collegamentiArg = document.querySelector("#collegamenti_argomento");
+  const votoArg = document.querySelector("#voto_argomento");
 
   // Assegna l'event listener al contenitore che contiene gli argomenti (ul o div padre)
   const listaMaterie = document.getElementById("lista_materie");
@@ -209,6 +325,7 @@ window.addEventListener("DOMContentLoaded", () => {
     // Usa event delegation per catturare i click su elementi con classe .liArgomento
     listaMaterie.addEventListener("click", (event) => {
       if (event.target.classList.contains("liArgomento")) {
+        caricaMaterie();
         // Nascondi/mostra i div desiderati
         divAggiungiArg.style.display = "none";
         divVisualizzaArg.style.display = "none";
@@ -226,6 +343,8 @@ window.addEventListener("DOMContentLoaded", () => {
             if (argomento.nome === argomentoCliccato) {
               // Imposta la descrizione dell'argomento selezionato
               descrizioneArg.textContent = argomento.descrizione;
+              collegamentiArg.textContent = argomento.collegamenti;
+              votoArg.textContent = argomento.voto;
               return; // Esci dal ciclo una volta trovata la corrispondenza
             }
           }

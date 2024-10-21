@@ -5,9 +5,11 @@ pub struct Argomento {
     pub nome: String,
     pub materia: String,
     pub descrizione: String,
+    pub collegamenti: String,
+    pub voto: f32,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, )]
 pub enum Materia {
     Arte { argomenti: Vec<Argomento> },
     Filosofia { argomenti: Vec<Argomento> },
@@ -21,11 +23,13 @@ pub enum Materia {
 }
 
 impl Argomento {
-    pub fn new(nome: String, materia: String, descrizione: String) -> Self {
+    pub fn new(nome: String, materia: String, descrizione: String, collegamenti: String, voto: f32) -> Self {
         Self {
             nome,
             materia,
             descrizione,
+            collegamenti,
+            voto
         }
     }
 }
@@ -108,4 +112,5 @@ impl Materia {
             _ => Err(format!("Materia sconosciuta: {}", argomento.materia)),
         }
     }
+
 }

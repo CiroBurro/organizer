@@ -21,6 +21,10 @@
           <input type="text" id="titolo" name="titolo">
           <label for="descrizione">Descrizione: </label>
           <input type="text" id="descrizione" name="descrizione">
+          <label for="collegamenti">Collegamenti: </label>
+          <input type="text" id="collegamenti" name="collegamenti">
+          <label for="voto">Voto: </label>
+          <input type="text" id="voto" name="voto">
           <label for="materia">Materia: </label>
           <input type="text" id="materia" name="materia">
 
@@ -90,7 +94,13 @@
           <h2 id="titolo_argomento">Titolo</h2>
           <hr>
           <h3 class="sottotitolo">Descrizione</h3>
-          <p id="descrizione_argomento">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Repellendus, maxime laboriosam impedit perspiciatis eum necessitatibus iure, inventore quam odio cum harum magni ea ad corporis laborum provident sunt, recusandae aut?</p>
+          <p id="descrizione_argomento">Riavvia l'app per vedere la descrizione</p>
+          <h3 class="sottotitolo">Collegamenti</h3>
+          <p id="collegamenti_argomento">Riavvia l'app per vedere i collegamenti</p>
+
+          <h3 class="sottotitolo">Voto:</h3>
+          <p id="voto_argomento">Riavvia l'app per vedere il voto</p>
+
         </div>
 
         <div class="visualizza_cal" id="calendario"></div>
@@ -100,6 +110,26 @@
         <button class="main_buttons" id="bottone4">Gestisci argomento</button>
         <button class="main_buttons" id="bottone2">Visualizza argomenti</button>
         <button class="main_buttons" id="bottone3">Visualizza calendario</button>
+      </div>
+
+      <div class="modifica">
+        <h2>Modifica argomento</h2>
+        <label for="titolo_mod">Titolo: </label>
+          <input type="text" id="titolo_mod" name="titolo_mod">
+          <label for="descrizione_mod">Descrizione: </label>
+          <input type="text" id="descrizione_mod" name="descrizione_mod">
+          <label for="collegamenti_mod">Collegamenti: </label>
+          <input type="text" id="collegamenti_mod" name="collegamenti_mod">
+          <label for="voto_mod">Voto: </label>
+          <input type="text" id="voto_mod" name="voto_mod">
+          <label for="materia_mod">Materia: </label>
+          <input type="text" id="materia_mod" name="materia_mod">
+
+          <div class="buttons">
+            <button class="bottone_modifica" id="modifica">Modifica</button>
+            <button class="bottone_modifica" id="elimina">Elimina</button>
+            <button class="bottone_modifica" id="annulla">Annulla</button>
+          </div>
       </div>
     </main>
   </body>
